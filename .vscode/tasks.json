@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Express Server (TS)",
+      "type": "shell",
+      "command": "npx ts-node index.ts",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build TypeScript",
+      "type": "shell",
+      "command": "npx tsc",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Express Server (JS)",
+      "type": "shell",
+      "command": "node dist/index.js",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}
