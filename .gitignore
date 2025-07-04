@@ -7,3 +7,5 @@
 .vercel
 
 .env
+prisma/.env
+/generated/prisma
