@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import prisma from './prisma/client';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,9 +17,34 @@ const apiKeyMiddleware = (req: Request, res: Response, next: NextFunction): void
 };
 
 app.use(apiKeyMiddleware);
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Hello World from Express backend!');
+});
+
+// Get all anomalies
+app.get('/api/anomalies', async (req: Request, res: Response) => {
+  try {
+    const anomalies = await prisma.anomaly.findMany();
+    res.json(anomalies);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch anomalies' });
+  }
+});
+
+// Update anomaly by id
+app.patch('/api/anomalies/:id', async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const updated = await prisma.anomaly.update({
+      where: { id: Number(id) },
+      data: req.body,
+    });
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update anomaly' });
+  }
 });
 
 app.listen(PORT, () => {
