@@ -26,7 +26,11 @@ app.get('/', (req, res) => {
 // Get all anomalies
 app.get('/api/anomalies', async (req: Request, res: Response) => {
   try {
-    const anomalies = await prisma.anomaly.findMany();
+    const anomalies = await prisma.anomaly.findMany({
+        orderBy: {
+            timestamp: 'desc',
+        }
+    });
     res.json(anomalies);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch anomalies' });
